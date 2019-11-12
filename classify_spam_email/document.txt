@@ -1,0 +1,32 @@
+from sklearn.utils import shuffle
+
+document = []
+label = []
+def read_file(file):
+    with open(file,'r', encoding= 'utf-8') as f:
+        for line in f:
+            str = line[:]
+            ind = str.find('|')        
+            if ind == 5:   
+                label.append(1)
+            elif ind == 8:
+                label.append(0)
+            document.append(str[ind+2:])
+    
+
+read_file('data_email.txt') 
+document = shuffle(document,random_state = 0)
+
+document_test = []
+label_test = []
+document_train = []
+label_train = []
+for i in range(1,5):
+    print("fold ",i,":")
+    document_test = document[(i-1)*80:i*80]
+    label_test = label[(i-1)*80:i*80]
+    document_train = document[:(i-1)*80+1]+document[i*80+1:]
+    label_train = label[:(i-1)*80+1]+label[i*80+1:]
+    print("length of train document : ",len(document_test))
+    print("length of test document : ",len(document_train))
+
